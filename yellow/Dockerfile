@@ -1,20 +1,31 @@
-###################################################################
-# This is templating file of Dockerfile. It will help you to      #
-# complete all required instructions for building the Dockerfile. #
-###################################################################
+# Use the specified base image
+FROM node:17.0-alpine3.14
 
-# 1.1.1 | Use the following base image "node:17.0-alpine3.14"
+# Set the working directory inside the container
+WORKDIR /app
 
-# 1.1.2 | Working directory inside the containers should be "/app"
+# Update apk and install a specific version of npm
+RUN apk add --no-cache npm=7.17.0-r0
 
-# 1.1.3 | Copy "package*.json" file(s) to working directory
+# Copy package.json and package-lock.json to the /app directory
+COPY package*.json /app/
 
-# 1.1.4 | Install "npm=7.17.0-r0" package manager, then install dependency packages
+# Install dependencies
+RUN npm install
 
-# 1.1.5 | Copy "app.js" file to working directory
+# Copy the app.js file to the /app directory
+COPY app.js /app/
 
-# 1.1.6 | Copy the "index.pug" and "favicon.ico" files to the "/app/views" directory
+# Create the /app/views directory and copy index.pug and favicon.ico
+RUN mkdir -p /app/views
+COPY index.pug /app/views/
+COPY favicon.ico /app/views/
 
-# 1.1.7 | The port "80" should be exposed by the container
+# Copy the rest of the application code to the /app directory
+COPY . /app/
 
-# 1.1.8 | The container must execute the command "node app.js" in run time
+# Expose port 80
+EXPOSE 80
+
+# Define the command to run the application
+CMD ["node", "./app.js"]
