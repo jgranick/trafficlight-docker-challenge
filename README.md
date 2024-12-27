@@ -1,3 +1,28 @@
+## How to Run
+
+```
+docker compose build
+```
+
+Then:
+
+```
+docker compose up
+```
+
+Or:
+
+```
+docker compose up -d
+...
+docker compose down
+```
+
+Then visit http://localhost:3000, http://localhost:4000, http://localhost:5000
+
+
+-----
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
