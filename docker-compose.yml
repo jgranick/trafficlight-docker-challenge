@@ -1,0 +1,43 @@
+services:
+  red-app:
+    image: trafficlight/red:v1.0
+    container_name: red-app
+    networks:
+      - traffic-light
+
+  yellow-app:
+    image: trafficlight/yellow:v1.0
+    container_name: yellow-app
+    networks:
+      - traffic-light
+
+  green-app:
+    image: trafficlight/green:v1.0
+    container_name: green-app
+    networks:
+      - traffic-light
+
+  nginx-proxy:
+    image: nginx:1.21
+    container_name: nginx-proxy
+    networks:
+      - traffic-light
+    ports:
+      - "80:80"
+      - "4000:4000"
+      - "5000:5000"
+      - "3000:3000"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - red-app
+      - yellow-app
+      - green-app
+
+networks:
+  traffic-light:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
