@@ -23,18 +23,32 @@ services:
     networks:
       - traffic-light
 
-  nginx-proxy:
+  # nginx-proxy:
+  #   image: nginx:1.21
+  #   container_name: nginx-proxy
+  #   networks:
+  #     - traffic-light
+  #   ports:
+  #     - "80:80"
+  #     - "4000:4000"
+  #     - "5000:5000"
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./nginx-proxy.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - red-app
+  #     - yellow-app
+  #     - green-app
+
+  nginx-load-balancer:
     image: nginx:1.21
-    container_name: nginx-proxy
+    container_name: nginx-load-balancer
     networks:
       - traffic-light
     ports:
       - "80:80"
-      - "4000:4000"
-      - "5000:5000"
-      - "3000:3000"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-load-balancer.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - red-app
       - yellow-app
